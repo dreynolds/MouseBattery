@@ -13,44 +13,57 @@
 
 @synthesize window;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application 
-}
-
--(NSString *) runScript {
-	NSTask *ioreg = [[NSTask alloc] init];
-	NSTask *grep = [[NSTask alloc] init];
-	
-	[ioreg setLaunchPath:@"/usr/sbin/ioreg"];
-	[ioreg setArguments:[NSArray arrayWithObject:@"-l"]];
-	
-	[grep setLaunchPath:@"/usr/bin/grep"];
-	[grep setArguments:[NSArray arrayWithObject:@"'BatteryPercent'"]];
-	
-	NSPipe *pipe = [[NSPipe alloc] init];
-	
-	[ioreg setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-	[grep setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-	
-	[ioreg setStandardOutput:pipe];
-	[grep setStandardInput:pipe];
-	
-	pipe = [[NSPipe alloc] init];
-	
-	[grep setStandardOutput:pipe];
-	
-	[ioreg launch];
-	[grep launch];
-	
-	NSData *data = [[[grep standardOutput] fileHandleForReading] readDataToEndOfFile];
-	NSString *string = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-	return string;
+-(void)updatePercentage {
+    //NSLog(@"Update percentage");
+    NSString *file = [[NSBundle mainBundle] pathForResource:@"get_stuff" ofType:@"py" inDirectory:@""];
+    NSTask *pyScript = [[NSTask alloc] init];
+    [pyScript setLaunchPath:@"/usr/bin/python"];
+    
+    NSArray *arguments;
+    arguments = [NSArray arrayWithObjects: file, nil];
+    [pyScript setArguments:arguments];
+    
+    NSPipe *stdOutPath = [NSPipe pipe];
+    [pyScript setStandardOutput:stdOutPath];
+    
+    NSFileHandle *fileHandle;
+    fileHandle = [stdOutPath fileHandleForReading];
+    
+    [pyScript launch];
+    [pyScript waitUntilExit];
+    
+    NSData *data;
+    data = [fileHandle readDataToEndOfFile];
+    
+    NSString *string;
+    string = [[NSString alloc] initWithData:data encoding: NSUTF8StringEncoding];
+    [string autorelease];
+    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    [pyScript release];
+    [batteryStatusItem setTitle:string];
 }
 
 - (void)awakeFromNib {
-	batteryStatusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
-	NSString *string = [self runScript];
-	[batteryStatusItem setTitle:string];
+    NSDate *start_time = [NSDate date];	
+    batteryStatusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength] retain];
+    [batteryStatusItem setHighlightMode:YES];
+    
+    batteryMenu = [[NSMenu alloc] init];
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
+    [batteryMenu addItem:menuItem];
+    [menuItem release];
+    [batteryStatusItem setMenu:batteryMenu];
+    [batteryMenu release];
+    
+    NSTimer *timer = [[NSTimer alloc] initWithFireDate:start_time 
+                                              interval:10.0 
+                                                target:self 
+                                              selector:@selector(updatePercentage) 
+                                              userInfo:nil
+                                               repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+    [timer fire];
+    [timer release];
 }
 
 @end
