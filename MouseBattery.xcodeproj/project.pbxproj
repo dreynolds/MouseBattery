@@ -48,7 +48,6 @@
 			children = (
 				256AC3D80F4B6AC300CF3369 /* MouseBatteryAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* MouseBatteryAppDelegate.m */,
-				630644BF125FD52F001597AD /* get_stuff.sh */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -103,6 +102,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				630644BF125FD52F001597AD /* get_stuff.sh */,
 				8D1107310486CEB800E47090 /* MouseBattery-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
