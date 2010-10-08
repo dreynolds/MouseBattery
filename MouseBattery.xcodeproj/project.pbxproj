@@ -25,6 +25,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		630644BF125FD52F001597AD /* get_stuff.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = get_stuff.sh; sourceTree = "<group>"; };
+		630644EA125FD935001597AD /* README.rst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.rst; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MouseBattery-Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = "MouseBattery-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MouseBattery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MouseBattery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -100,6 +101,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				630644EA125FD935001597AD /* README.rst */,
 				630644BF125FD52F001597AD /* get_stuff.sh */,
 				8D1107310486CEB800E47090 /* MouseBattery-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
