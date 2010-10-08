@@ -14,7 +14,7 @@
 @synthesize window;
 
 -(void)updatePercentage {
-    NSLog(@"Update percentage");
+    DLog(@"Update percentage");
     NSString *file = [[NSBundle mainBundle] pathForResource:@"get_stuff" ofType:@"sh" inDirectory:@""];
     NSTask *pyScript = [[NSTask alloc] init];
     [pyScript setLaunchPath:@"/bin/bash"];
@@ -41,7 +41,7 @@
     [string autorelease];
     string = [string stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     [pyScript release];
-	NSLog(@"%@", string);
+	DLog(@"%@", string);
     [batteryStatusItem setTitle:string];
 }
 
