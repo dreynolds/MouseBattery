@@ -14,10 +14,10 @@
 @synthesize window;
 
 -(void)updatePercentage {
-    //NSLog(@"Update percentage");
-    NSString *file = [[NSBundle mainBundle] pathForResource:@"get_stuff" ofType:@"py" inDirectory:@""];
+    NSLog(@"Update percentage");
+    NSString *file = [[NSBundle mainBundle] pathForResource:@"get_stuff" ofType:@"sh" inDirectory:@""];
     NSTask *pyScript = [[NSTask alloc] init];
-    [pyScript setLaunchPath:@"/usr/bin/python"];
+    [pyScript setLaunchPath:@"/bin/bash"];
     
     NSArray *arguments;
     arguments = [NSArray arrayWithObjects: file, nil];
@@ -25,6 +25,7 @@
     
     NSPipe *stdOutPath = [NSPipe pipe];
     [pyScript setStandardOutput:stdOutPath];
+	[pyScript setStandardError:stdOutPath];
     
     NSFileHandle *fileHandle;
     fileHandle = [stdOutPath fileHandleForReading];
@@ -40,6 +41,7 @@
     [string autorelease];
     string = [string stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     [pyScript release];
+	NSLog(@"%@", string);
     [batteryStatusItem setTitle:string];
 }
 
